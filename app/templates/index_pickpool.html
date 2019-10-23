@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/static/assets/css/styles.css">
+{% if title %}
+        <title>{{title}}</title>
+{% else %}
+        <title>MISSING TITLE!</title>
+{% endif %}
+</head>
+
+<body>{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-center"><strong>Wilkommen zum MO-Quiz!</strong></h1>
+    <form method="post">
+        <div class="text-center">
+            <p style="font-size: 19px;">Bitte wähle einen Fragenpool aus:</p> <select name="question_pool">
+    {% for pool in question_pool %}
+       <option value="{{pool}}">{{pool}}</option>
+    {% endfor %}
+</select> <input class="form-control d-xl-flex justify-content-xl-center" type="submit" style="filter: blur(0px);margin-top: 14px;" value="Auswählen"></div>
+    </form>{% endblock %}
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
