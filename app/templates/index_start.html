@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/static/assets/css/styles.css">
+{% if title %}
+        <title>{{title}}</title>
+{% else %}
+        <title>MISSING TITLE!</title>
+{% endif %}
+</head>
+
+<body>{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-center"><strong>Wilkommen zum MO-Quiz!</strong></h1>
+    <p class="text-center" style="font-size: 21px;">Du bist bei Frage <strong>{{session["question_number"]}}</strong></p>
+    <p class="text-center" style="font-size: 21px;margin-top: -24px;">im Quiz<strong>{{session["question_pool"]}}</strong></p>
+    <div class="text-center"><a href="{{url_for('quiz')}}" style="font-size: 26px;"><span style="text-decoration: underline;">Weiter</span><br></a></div>{% endblock %}
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

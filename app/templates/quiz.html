@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/static/assets/css/styles.css">
+{% if title %}
+        <title>{{title}}</title>
+{% else %}
+        <title>MISSING TITLE!</title>
+{% endif %}
+</head>
+
+<body>{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-center" style="font-size: 35px;padding-bottom: 14px;"><strong>Frage {{session["question_number"]}}: {{question.content}}</strong></h1>
+    <p class="text-center">Deine Antwort:</p>
+    <form id="answer" class="answer" method="post" style="margin: 0 auto;padding-top: 3px;">
+        <p class="d-xl-flex justify-content-xl-center"><input class="form-control" type="text" autofocus="" name="user_answer" autocomplete="off" required=""></p>
+        <p class="d-xl-flex justify-content-xl-center"><input class="form-control d-xl-flex justify-content-xl-center" type="submit" style="filter: blur(0px);" value="Senden"></p>
+    </form>{% endblock %}
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

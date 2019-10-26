@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/static/assets/css/styles.css">
+{% if title %}
+        <title>{{title}}</title>
+{% else %}
+        <title>MISSING TITLE!</title>
+{% endif %}
+</head>
+
+<body>{% extends "base.html" %}
+
+{% block content %}
+
+{% if correct %}
+
+    <h1 class="text-center tada animated" style="filter: blur(0px);color: rgb(11,159,35);"><strong>Deine Antwort war Korrekt!</strong></h1>{% else %}
+    <h1 class="text-center shake animated" style="filter: blur(0px);padding-left: 25px;color: rgb(184,6,6);"><strong>Deine Antwort war leider Falsch</strong></h1>
+    <p class="text-center" style="font-size: 20px;">Die Richtige Antwort wäre <strong>"{{question.answer}}"</strong> gewesen<br></p>{% endif %}
+    <p class="text-center" style="font-size: 17px;">Rightige antworten: <strong>{{session["answers_right"]}} von {{session["answers_total"]}}</strong><br></p>
+    <div class="text-center"><a href="{{url_for('quiz', id=question.quiz.id)}}" style="font-size: 31px;">Nächste Frage</a></div>{% endblock %}
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
