@@ -21,8 +21,8 @@
     <h1 class="text-center" style="font-size: 35px;padding-bottom: 14px;"><strong>Frage {{session["question_number"]}}: {{question.content}}</strong></h1>
     <p class="text-center">Deine Antwort:</p>
     <form id="answer" class="answer" method="post" style="margin: 0 auto;padding-top: 3px;">
-        <p class="d-xl-flex justify-content-xl-center"><input class="form-control" type="text" autofocus="" name="user_answer" autocomplete="off" required=""></p>
-        <p class="d-xl-flex justify-content-xl-center"><input class="form-control d-xl-flex justify-content-xl-center" type="submit" style="filter: blur(0px);" value="Senden"></p>
+        <p><input class="form-control" type="text" autofocus="" name="user_answer" autocomplete="off" required=""></p>
+        <p><input class="form-control d-xl-flex justify-content-xl-center" type="submit" style="filter: blur(0px);" value="Senden"></p>
     </form>{% endblock %}
     <script src="/static/assets/js/jquery.min.js"></script>
     <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>

@@ -57,6 +57,35 @@ def quiz():
 
         return render_template("quiz_next.html", correct=is_correct, title=title, question=question)
 
+@app.route("/create", methods=["GET", "POST"])
+def create_quiz():
+    if request.method == "GET":
+        return render_template("quiz_create.html", title="Quiz erstellen")
+    
+    if len(request.form) % 2 != 0:
+        flash("Beim erstellen des Quiz ist ein fehler aufgetreten!")
+
+    # !CHANGETHIS!
+    quiz = Quiz(name="TEST", authorID=1)
+    db.session.add(quiz)
+    db.session.commit()
+
+    # for x in request.form:
+    #    print(x + ": ", end="")
+    #    print(request.form[x])
+    for question_number in range(int(len(request.form)/2)):
+        content = request.form["question_content_" + str(question_number)]
+        answer = request.form["question_answer_" + str(question_number)]
+        q = Question(content=content, answer=answer, quizID=quiz.id)
+        db.session.add(q)
+    
+    db.session.commit()
+
+    flash("Quiz added!")
+    return redirect(url_for("index"))
+
+
+
 
 @app.route("/restart")
 def restart():
