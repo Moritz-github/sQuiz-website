@@ -1,8 +1,9 @@
 from app import app, db
 import random
 from flask import render_template, url_for, session, request, redirect, flash
+from flask_login import current_user, login_user, logout_user
 from app.models import User, Quiz, Question
-from app.forms import RegisterForm
+from app.forms import RegisterForm, LoginForm
 
 # test:development
 
@@ -35,11 +36,11 @@ def quiz():
         return render_template("quiz_end.html", title="Ende")
     question = all_questions[session["question_number"]]
     # if the user loads the page he should be shown the question
-    if(request.method == "GET"):
+    if request.method == "GET":
         return render_template("quiz.html", title="Frage", question = question)
 
     # if the user sumbits a question
-    if (request.method == "POST"):
+    if request.method == "POST":
         user_answer = request.form["user_answer"]
         title = ""
         # If user answer is correct
@@ -86,6 +87,19 @@ def create_quiz():
     return redirect(url_for("index"))
 
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash("Falscher Username oder falsches Passwort.")
+            return redirect(url_for("login"))
+        login_user(user)
+        flash("Du wurdest erfolgreich eingeloggt.")
+        return redirect(url_for("index"))
+    return render_template("login.html", form = form, title="Login")
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
@@ -93,15 +107,20 @@ def register():
         return redirect(url_for("index"))
     form = RegisterForm()
     if form.validate_on_submit():
-        
-
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+        login_user(user, remember=form.remember_me.data)
         flash("Account erstellt!")
         return redirect(url_for("index"))
     return render_template("register.html", title="Register", form=form)
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    flash("Du wurdest erfolgreich ausgeloggt.")
+    return redirect(url_for("index"))
 
 @app.route("/restart")
 def restart():
