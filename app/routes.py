@@ -2,6 +2,7 @@ from app import app, db
 import random
 from flask import render_template, url_for, session, request, redirect, flash
 from app.models import User, Quiz, Question
+from app.forms import RegisterForm
 
 # test:development
 
@@ -85,7 +86,22 @@ def create_quiz():
     return redirect(url_for("index"))
 
 
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if current_user.is_authenticated:
+        flash("Du bist bereits eingeloggt!")
+        return redirect(url_for("index"))
+    form = RegisterForm()
+    if form.validate_on_submit():
+        
 
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("Account erstellt!")
+        return redirect(url_for("index"))
+    return render_template("register.html", title="Register", form=form)
 
 @app.route("/restart")
 def restart():
