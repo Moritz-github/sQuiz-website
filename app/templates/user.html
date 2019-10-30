@@ -15,11 +15,19 @@
 {% endif %}
 </head>
 
-<body>{% extends "base.html" %} {% block content %}
+<body>{% extends "base.html" %}
+
+{% block content %}
     <div class="text-center">
-        <h1>Quiz: {{quiz.name}}</h1>
-        <p style="font-size: 17px;">Erstellt von:&nbsp;<a href="{{url_for('view_user', name=quiz.author.username)}}">{{ quiz.author.username}}</a></p>
-        <p style="font-size: 19px;">{{quiz.questions|length}} Fragen</p><a href="{{url_for('play_quiz', id=quiz.id)}}" style="font-size: 20px;">Dieses Quiz spielen</a></div>{% endblock %}
+        <div class="d-xl-flex justify-content-xl-center align-items-xl-center">
+            <p style="font-size: 31px;">{{ user.username }}</p>
+            <p style="margin-left: 20px;"><strong>{{ user.quizzes|length }}</strong>&nbsp;erstellte Quiz(e)</p>
+        </div>
+        <p style="margin-bottom: 0px;">Erstellte Quiz:</p><ul>
+{% for quiz in user.quizzes %}
+<li><a href="{{ url_for('view_quiz', id=quiz.id )}}">{{quiz.name}}</a></li>
+{% endfor %}
+</ul></div>{% endblock %}
     <script src="/static/assets/js/jquery.min.js"></script>
     <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
 </body>

@@ -24,6 +24,15 @@ def index():
         return redirect(url_for("view_quiz", id=request.form["quiz"]))
 
 
+@app.route("/user/<name>")
+def view_user(name):
+    user = User.query.filter_by(username=name).first()
+    if user is None:
+        flash("Dieser User wurde nicht gefunden!")
+        return redirect(url_for("index"))
+    return render_template("user.html", user=user, title=user.username)
+
+
 @app.route("/quiz/<id>")
 def view_quiz(id):
     quiz = Quiz.query.filter_by(id=id).first()
@@ -63,14 +72,16 @@ def play_quiz(id):
 
 @app.route("/create", methods=["GET", "POST"])
 def create_quiz():
+    if current_user.is_anonymous:
+        return redirect(url_for("index"))
+
     if request.method == "GET":
         return render_template("quiz_create.html", title="Quiz erstellen")
     
     if len(request.form) % 2 != 0:
         flash("Beim erstellen des Quiz ist ein fehler aufgetreten!")
 
-    # !CHANGETHIS!
-    quiz = Quiz(name="TEST", authorID=1)
+    quiz = Quiz(name="TEST", authorID=current_user.id)
     db.session.add(quiz)
     db.session.commit()
 
