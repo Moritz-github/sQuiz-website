@@ -25,7 +25,7 @@
     <h1 class="text-center shake animated" style="filter: blur(0px);padding-left: 25px;color: rgb(184,6,6);"><strong>Deine Antwort war leider Falsch</strong></h1>
     <p class="text-center" style="font-size: 20px;">Die Richtige Antwort wäre <strong>"{{question.answer}}"</strong> gewesen<br></p>{% endif %}
     <p class="text-center" style="font-size: 17px;">Rightige antworten: <strong>{{session["answers_right"]}} von {{session["answers_total"]}}</strong><br></p>
-    <div class="text-center"><a href="{{url_for('quiz', id=question.quiz.id)}}" style="font-size: 31px;">Nächste Frage</a></div>{% endblock %}
+    <div class="text-center"><a href="{{url_for('play_quiz', id=question.quiz.id)}}" style="font-size: 31px;">Nächste Frage</a></div>{% endblock %}
     <script src="/static/assets/js/jquery.min.js"></script>
     <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
 </body>

@@ -17,7 +17,7 @@
 
 <body>{% extends "base.html" %}
 {% block content %}
-    <form method="post" action="">{{ form.hidden_tag() }}
+    <form class="text-center" method="post" action="">{{ form.hidden_tag() }}
         <p>{{ form.username.label }} <br>
 {{ form.username(size=32) }}
 {% for error in form.username.errors %}

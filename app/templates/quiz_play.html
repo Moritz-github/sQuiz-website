@@ -18,10 +18,15 @@
 <body>{% extends "base.html" %}
 
 {% block content %}
-    <h1 class="text-center"><strong>Wilkommen zum MO-Quiz!</strong></h1>
-    <p class="text-center" style="font-size: 21px;">Du bist bei Frage <strong>{{session["question_number"]}}</strong></p>
-    <p class="text-center" style="font-size: 21px;margin-top: -24px;">im Quiz<strong>{{session["question_pool"]}}</strong></p>
-    <div class="text-center"><a href="{{url_for('quiz')}}" style="font-size: 26px;"><span style="text-decoration: underline;">Weiter</span><br></a></div>{% endblock %}
+    <h1 class="text-center" style="font-size: 35px;padding-bottom: 14px;"><strong>Frage {{session["question_number"]}}: {{question.content}}</strong></h1>
+    <form id="answer" class="answer" method="post" style="margin: 0 auto;padding-top: 3px;" action="">{{ form.hidden_tag() }}
+        <p>{{ form.answer.label }} <br>
+{{ form.answer(size=32) }}
+{% for error in form.answer.errors %}
+<span style="color: red;">{{error}}</span>
+{% endfor %}</p>
+        <p>{{ form.submit() }}</p>
+    </form>{% endblock %}
     <script src="/static/assets/js/jquery.min.js"></script>
     <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
 </body>

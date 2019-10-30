@@ -1,7 +1,16 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Email, ValidationError
-from app.models import User
+from app.models import User, Question
+
+
+class QuizForm(FlaskForm):
+    answer = StringField("Deine Antwort:", validators=[DataRequired()])
+    submit = SubmitField("Senden")
+
+    def validate_answer(self, answer):
+        if len(answer.data) > Question.answer.type.length:
+            raise ValidationError("Diese Antwort ist zu lang.")
 
 
 class LoginForm(FlaskForm):

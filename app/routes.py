@@ -3,7 +3,7 @@ import random
 from flask import render_template, url_for, session, request, redirect, flash
 from flask_login import current_user, login_user, logout_user
 from app.models import User, Quiz, Question
-from app.forms import RegisterForm, LoginForm
+from app.forms import RegisterForm, LoginForm, QuizForm
 
 # test:development
 
@@ -13,51 +13,53 @@ def before_request():
         restart()
 
 
-@app.route("/", methods=["GET", "POST"])
 @app.route("/index", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "GET":
-        return render_template("index_pickquiz.html", title="Willkommen!", questions_all = Quiz.query.all())
+        return render_template("index.html", title="Willkommen!", questions_all = Quiz.query.all())
 
     if request.method == "POST":
         reset_session()
-        return redirect(url_for("quiz", id=request.form["quiz"]))
+        return redirect(url_for("view_quiz", id=request.form["quiz"]))
 
 
-@app.route("/quiz", methods=["GET", "POST"])
-def quiz():
-    quiz_id = request.args.get("id")
-    if not quiz_id:
+@app.route("/quiz/<id>")
+def view_quiz(id):
+    quiz = Quiz.query.filter_by(id=id).first()
+    if quiz is None:
+        flash("Dieses Quiz wurde nicht gefunden!")
+        return redirect(url_for("index"))
+    return render_template("quiz_view.html", quiz=quiz, title=quiz.name)
+
+
+@app.route("/quiz/<id>/play", methods=["GET", "POST"])
+def play_quiz(id):
+    quiz = Quiz.query.filter_by(id=id).first()
+    if quiz is None:
         flash("Quiz wurde nicht gefunden!")
         return redirect(url_for("index"))
 
-    all_questions = Question.query.filter_by(quizID=quiz_id).all()
-    if session["question_number"] >= len(all_questions):
+    if session["question_number"] >= len(quiz.questions):
         return render_template("quiz_end.html", title="Ende")
-    question = all_questions[session["question_number"]]
-    # if the user loads the page he should be shown the question
-    if request.method == "GET":
-        return render_template("quiz.html", title="Frage", question = question)
+
+    current_question = quiz.questions[session["question_number"]]
+    form = QuizForm()
 
     # if the user sumbits a question
-    if request.method == "POST":
-        user_answer = request.form["user_answer"]
-        title = ""
+    if form.validate_on_submit():
+        user_answer = form.answer.data
+        is_correct = False
         # If user answer is correct
-        if question.answer.lower() == user_answer.lower().replace(",", ".").strip("0"):
+        if current_question.answer.lower() == user_answer.lower().replace(",", ".").strip("0"):
             session["answers_right"] += 1
             is_correct=True
-            title="Richtig"
-        else:
-            is_correct=False
-            title="Falsch"
-
-        print("JETZT wird question entfernt & quiz_next.html weitergegeben")
 
         session["question_number"] += 1
         session["answers_total"] += 1
 
-        return render_template("quiz_next.html", correct=is_correct, title=title, question=question)
+        return render_template("quiz_next.html", correct=is_correct, title="Nächste Frage", question=current_question)
+    return render_template("quiz_play.html", title="Frage", question=current_question, form=form)
 
 @app.route("/create", methods=["GET", "POST"])
 def create_quiz():
@@ -129,7 +131,6 @@ def restart():
     return redirect(url_for("index"))
 
 def reset_session():
-    session.clear()
     session["question_number"] = 0
     session["answers_total"] = 0
     session["answers_right"] = 0

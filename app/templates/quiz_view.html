@@ -15,15 +15,10 @@
 {% endif %}
 </head>
 
-<body>{% extends "base.html" %}
-
-{% block content %}
-    <h1 class="text-center" style="font-size: 35px;padding-bottom: 14px;"><strong>Frage {{session["question_number"]}}: {{question.content}}</strong></h1>
-    <p class="text-center">Deine Antwort:</p>
-    <form id="answer" class="answer" method="post" style="margin: 0 auto;padding-top: 3px;">
-        <p><input class="form-control" type="text" autofocus="" name="user_answer" autocomplete="off" required=""></p>
-        <p><input class="form-control d-xl-flex justify-content-xl-center" type="submit" style="filter: blur(0px);" value="Senden"></p>
-    </form>{% endblock %}
+<body>{% extends "base.html" %} {% block content %}
+    <div class="text-center">
+        <h1>Quiz: {{quiz.name}}</h1>
+        <p style="font-size: 19px;">{{quiz.questions|length}} Fragen</p><a href="{{url_for('play_quiz', id=quiz.id)}}" style="font-size: 20px;">Dieses Quiz spielen</a></div>{% endblock %}
     <script src="/static/assets/js/jquery.min.js"></script>
     <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
