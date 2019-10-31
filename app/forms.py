@@ -13,6 +13,12 @@ class QuizForm(FlaskForm):
             raise ValidationError("Diese Antwort ist zu lang.")
 
 
+class EditQuizForm(FlaskForm):
+    question = StringField(validators=[DataRequired()])
+    answer = StringField(validators=[DataRequired()])
+    submit = SubmitField()
+
+
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])

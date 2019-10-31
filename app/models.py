@@ -35,7 +35,7 @@ class Quiz(db.Model):
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    # toDo fix this shit
+    # toDo fix /create character limit
     content = db.Column(db.String(200), nullable=False)
     answer = db.Column(db.String(100), nullable=False)
     quizID = db.Column(db.Integer, db.ForeignKey("quiz.id"), nullable=False)

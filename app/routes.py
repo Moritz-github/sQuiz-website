@@ -3,7 +3,7 @@ import random
 from flask import render_template, url_for, session, request, redirect, flash
 from flask_login import current_user, login_user, logout_user
 from app.models import User, Quiz, Question
-from app.forms import RegisterForm, LoginForm, QuizForm
+from app.forms import RegisterForm, LoginForm, QuizForm, EditQuizForm
 
 # test:development
 
@@ -70,34 +70,58 @@ def play_quiz(id):
         return render_template("quiz_next.html", correct=is_correct, title="Nächste Frage", question=current_question)
     return render_template("quiz_play.html", title="Frage", question=current_question, form=form)
 
-@app.route("/create", methods=["GET", "POST"])
-def create_quiz():
+
+@app.route("/quiz/<quizID>/edit")
+def edit_quiz(quizID):
     if current_user.is_anonymous:
         return redirect(url_for("index"))
+    quiz = Quiz.query.filter_by(id=quizID).first()
+    if quiz is None:
+        flash("Dieses Quiz wurde nicht gefunden")
+        return redirect(url_for("index"))
+    if quiz.author.id != current_user.id:
+        return redirect(url_for("index"))
 
-    if request.method == "GET":
-        return render_template("quiz_create.html", title="Quiz erstellen")
-    
-    if len(request.form) % 2 != 0:
-        flash("Beim erstellen des Quiz ist ein fehler aufgetreten!")
+    return render_template("edit_quiz.html", title="Quiz bearbeiten", quiz=quiz)
 
-    quiz = Quiz(name="TEST", authorID=current_user.id)
-    db.session.add(quiz)
+
+@app.route("/question/<questionID>/edit", methods=["GET", "POST"])
+def edit_quiz_question(questionID):
+    if current_user.is_anonymous:
+        return redirect(url_for("index"))
+    question = Question.query.filter_by(id=questionID).first()
+    if question is None:
+        flash("Dieses Quiz wurde nicht gefunden")
+        return redirect(url_for("index"))
+    if question.quiz.author.id != current_user.id:
+        return redirect(url_for("index"))
+    form = EditQuizForm()
+
+    if form.validate_on_submit():
+        db.session.query(Question).filter_by(id=questionID). \
+            update({"content": form.question.data, "answer": form.answer.data})
+        db.session.commit()
+        return render_template("edit_quiz.html", title="Quiz bearbeiten", quiz=question.quiz)
+    form.question.data = question.content
+    form.answer.data = question.answer
+    return render_template("edit_quiz.html", title="Frage bearbeiten", quiz=question.quiz,
+                           question_to_edit=question, form=form)
+
+
+@app.route("/quiz/<quizID>/add")
+def create_question(quizID):
+    if current_user.is_anonymous:
+        return redirect(url_for("index"))
+    quiz = Quiz.query.filter_by(id=quizID).first()
+    if quiz is None:
+        flash("Dieses Quiz wurde nicht gefunden")
+        return redirect(url_for("index"))
+    if quiz.author.id != current_user.id:
+        return redirect(url_for("index"))
+    question = Question(content=" ", answer=" ", quizID=quiz.id)
+    db.session.add(question)
     db.session.commit()
-
-    # for x in request.form:
-    #    print(x + ": ", end="")
-    #    print(request.form[x])
-    for question_number in range(int(len(request.form)/2)):
-        content = request.form["question_content_" + str(question_number)]
-        answer = request.form["question_answer_" + str(question_number)]
-        q = Question(content=content, answer=answer, quizID=quiz.id)
-        db.session.add(q)
-    
-    db.session.commit()
-
-    flash("Quiz added!")
-    return redirect(url_for("index"))
+    return redirect(url_for("edit_quiz_question", questionID=question.id))
 
 
 @app.route("/login", methods=["GET", "POST"])
