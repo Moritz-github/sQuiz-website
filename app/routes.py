@@ -85,6 +85,7 @@ def edit_quiz(quizID):
     return render_template("edit_quiz.html", title="Quiz bearbeiten", quiz=quiz)
 
 
+# toDo: mobile optimization
 @app.route("/question/<questionID>/edit", methods=["GET", "POST"])
 def edit_quiz_question(questionID):
     if current_user.is_anonymous:
@@ -108,7 +109,7 @@ def edit_quiz_question(questionID):
                            question_to_edit=question, form=form)
 
 
-@app.route("/quiz/<quizID>/add")
+@app.route("/quiz/<quizID>/add-question")
 def create_question(quizID):
     if current_user.is_anonymous:
         return redirect(url_for("index"))
@@ -123,6 +124,20 @@ def create_question(quizID):
     db.session.commit()
     return redirect(url_for("edit_quiz_question", questionID=question.id))
 
+
+@app.route("/question/<questionID>/delete")
+def delete_quiz_question(questionID):
+    if current_user.is_anonymous:
+        return redirect(url_for("index"))
+    question = Question.query.filter_by(id=questionID).first()
+    if question is None:
+        flash("Frage nicht gefunden")
+        return redirect(url_for("index"))
+    if question.quiz.author.id != current_user.id:
+        return redirect(url_for("index"))
+    db.session.delete(question)
+    db.session.commit()
+    return redirect(url_for("edit_quiz", quizID=question.quiz.id))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
