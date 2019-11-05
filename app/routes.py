@@ -68,7 +68,7 @@ def play_quiz(id):
         session["answers_total"] += 1
 
         return render_template("quiz_next.html", correct=is_correct, title="Nächste Frage", question=current_question)
-    return render_template("quiz_play.html", title="Frage", question=current_question, form=form)
+    return render_template("quiz_play.html", title="Frage", question=current_question,quiz=quiz, form=form)
 
 
 @app.route("/quiz/<quizID>/edit")

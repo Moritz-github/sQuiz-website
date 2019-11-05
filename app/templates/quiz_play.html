@@ -23,8 +23,16 @@
 <body>{% extends "base.html" %}
 
 {% block content %}
-    <h1 class="text-center" style="font-size: 35px;padding-bottom: 14px;"><strong>Frage {{session["question_number"]}}: {{question.content}}</strong></h1>
-    <form id="answer" class="answer" method="post" style="margin: 0 auto;padding-top: 3px;" action="">{{ form.hidden_tag() }}
+    <div class="container" style="width: 60%;">
+        <h1 class="text-left" style="font-size: 28px;">{{quiz.name}}</h1>
+        <p>{{quiz.questions|length}} Fragen - Erstellt von<a href="{{url_for('view_user', name=quiz.author.username)}}">&nbsp;{{ quiz.author.username}}</a></p>
+        <hr>
+    </div>
+    <div class="container">
+        <h1 class="text-center" style="font-size: 35px;padding-bottom: 14px;">{{session["question_number"]}}/{{quiz.questions|length}}&nbsp;{{ question.content }}<br></h1>
+        <h1></h1>
+    </div>
+    <form class="text-center answer" id="answer" method="post" style="margin: 0 auto;padding-top: 3px;" action="">{{ form.hidden_tag() }}
         <p>{{ form.answer.label }} <br>
 {{ form.answer(size=32) }}
 {% for error in form.answer.errors %}

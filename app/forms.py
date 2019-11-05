@@ -18,6 +18,13 @@ class EditQuizForm(FlaskForm):
     answer = StringField(validators=[DataRequired()])
     submit = SubmitField()
 
+    def validate_question(self, question):
+        if len(question.data) > Question.content.type.length:
+            raise ValidationError("Diese Frage ist zu lang.")
+
+    def validate_answer(self, answer):
+        if len(answer.data) > Question.answer.type.length:
+            raise ValidationError("Diese Antwort ist zu lang.")
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])

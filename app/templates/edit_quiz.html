@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>sQuiz - kostenlos Quiz erstellen und spielen</title>
+    <meta property="og:type" content="website">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/assets/css/Data-Table-1.css">
+    <link rel="stylesheet" href="/static/assets/css/Data-Table.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/static/assets/css/styles.css">
+{% if title %}
+        <title>{{title}}</title>
+{% else %}
+        <title>MISSING TITLE!</title>
+{% endif %}
+</head>
+
+<body>{% extends "base.html" %} {% block content %}
+    <p class="text-center" style="font-size: 28px;">{{ quiz.name }} bearbeiten</p>
+    <div class="container"><table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <colgroup>
+       <col span="1" style="width: 60%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 13%;">
+    </colgroup>
+        <thead>
+            <tr>
+                <th>Frage</th>
+                <th>Antwort</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in quiz.questions %}
+            {% if question_to_edit and question.id == question_to_edit.id %}
+            <form action="" method="post" >
+            <tr>
+                {{ form.hidden_tag() }}
+                <td> {{ form.question(size=70) }}
+                <br> {% for error in form.question.errors %}
+                    <span style="color: red">{{error}}<span>
+                {% endfor %}
+                </td>
+                <td>{{ form.answer(size=20) }}
+                <br> {% for error in form.answer.errors %}
+                    <span style="color: red">{{error}}<span>
+                {% endfor %}
+                        </td>
+                <td>{{ form.submit() }}</td>
+            </tr>
+            </form>
+            {% else %}
+            <tr>
+                <td>{{ question.content }}</td>
+                <td>{{ question.answer }}</td>
+                
+                <td> <container> <a class="btn btn-primary" role="button" style="width: 80px;" href="{{ url_for('edit_quiz_question', questionID=question.id) }}">Edit</a>
+                <a class="btn btn-danger" role="button" style="width: 38px;" href="{{ url_for('delete_quiz_question', questionID=question.id) }}">-</a>
+                </container> </td>
+            </tr>
+            {% endif %} {% endfor %}
+        </tbody>
+    </table><a class="btn btn-success btn-block" role="button" href="{{ url_for('create_question', quizID=quiz.id) }}">Frage hinzufügen</a></div>{% endblock %}
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+</body>
+
+</html>

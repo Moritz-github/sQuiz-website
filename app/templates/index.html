@@ -26,20 +26,11 @@
     <h1 class="text-center"><strong>Wilkommen zum sQuiz!</strong></h1>
     <form method="post">
         <div class="text-center">
-            <p style="font-size: 19px;">Bitte wähle eine Quiz aus:</p>
-            <div class="table-responsive" style="filter: blur(0px);">
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td class="text-center"> <select name="quiz">
+            <p style="font-size: 19px;">Bitte wähle eine Quiz aus:</p> <select name="quiz">
     {% for question in questions_all %}
        <option value="{{question.id}}">{{question.name}}</option>
     {% endfor %}
-</select></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div><input class="form-control d-xl-flex justify-content-xl-center" type="submit" style="filter: blur(0px);margin-top: 14px;" value="Auswählen"></div>
+</select><input class="form-control d-xl-flex justify-content-xl-center" type="submit" style="filter: blur(0px);margin-top: 14px;" value="Auswählen"></div>
     </form>{% endblock %}
     <script src="/static/assets/js/jquery.min.js"></script>
     <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
