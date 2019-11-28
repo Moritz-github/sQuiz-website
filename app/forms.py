@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Email, ValidationError
-from app.models import User, Question
+from app.models import User, Question, Quiz
 
 
 class QuizForm(FlaskForm):
@@ -53,3 +53,14 @@ class RegisterForm(FlaskForm):
             raise ValidationError("Diese Email wurde bereits verwendet.")
         if len(email.data) > User.email.type.length:
             raise ValidationError("Diese Email ist zu lang. Max: " + str(User.email.type.length))
+
+class CreateQuizForm(FlaskForm):
+    title = StringField("Quiz Name", validators=[DataRequired()])
+    submit = SubmitField("Erstellen")
+
+    def validate_title(self, name):
+        if len(name.data) > Quiz.name.type.length:
+            raise ValidationError("Dieser name ist zu lange")
+
+class DeleteQuizFrom(FlaskForm):
+    submit = SubmitField("Löschen")

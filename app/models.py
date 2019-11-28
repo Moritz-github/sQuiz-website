@@ -28,7 +28,7 @@ class Quiz(db.Model):
     name = db.Column(db.String(100), nullable=False)
     authorID = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
-    questions = db.relationship("Question", backref="quiz", lazy=True)
+    questions = db.relationship("Question", backref="quiz", lazy=True, cascade = "all, delete, delete-orphan")
 
     def __repr__(self):
         return f"Quiz('{self.id}', '{self.name}')"

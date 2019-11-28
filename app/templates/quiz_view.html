@@ -23,14 +23,16 @@
 <body>{% extends "base.html" %} {% block content %}
     <div class="text-center">
         <h1>{{quiz.name}}</h1>
-        <p style="font-size: 17px;">Erstellt von:&nbsp;<a href="{{url_for('view_user', name=quiz.author.username)}}">{{ quiz.author.username}}</a></p>
-        <p style="font-size: 19px;">{{quiz.questions|length}} Fragen</p><a href="{{url_for('play_quiz', id=quiz.id)}}" style="font-size: 35px;color: rgb(25,224,128);">Quiz Spielen</a>
-        <div class="container">{% if current_user.is_authenticated and quiz.author.id == current_user.id %}<a href="{{url_for('edit_quiz', quizID=quiz.id) }}">Quiz bearbeiten</a>{% endif %}</div>
-    </div>{% endblock %}
-    <script src="/static/assets/js/jquery.min.js"></script>
-    <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+        <p style="font-size: 17px;">Erstellt von {% if current_user == quiz.author %} dir {% else %} :&nbsp;<a href="{{url_for('view_user', name=quiz.author.username)}}">{{ quiz.author.username}}</a>&nbsp;{% endif %}</p>
+        <p style="font-size: 19px;">{{quiz.questions|length}} Fragen</p><a href="{{url_for('play_quiz', quizID=quiz.id)}}" style="font-size: 35px;">Quiz Spielen</a><br><a class="text-info" href="{{url_for('print_quiz', quizID=quiz.id)}}" style="font-size: 29px;">Quiz drucken</a>{% if current_user.is_authenticated and quiz.author.id == current_user.id %}
+<br>
+        <a
+            href="{{url_for('edit_quiz', quizID=quiz.id) }}">Quiz bearbeiten</a><br><a class="text-danger" href="{{ url_for('delete_quiz', quizID=quiz.id) }}">Quiz löschen</a>{% endif %}</div>{% endblock %}
+    <script
+        src="/static/assets/js/jquery.min.js"></script>
+        <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 </body>
 
 </html>

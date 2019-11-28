@@ -20,21 +20,16 @@
 {% endif %}
 </head>
 
-<body>{% extends "base.html" %}
+<body>{% extends "base_quiz.html" %}
 
-{% block content %}
-    <div class="container" style="width: 60%;">
-        <h1 class="text-left" style="font-size: 28px;">{{quiz.name}}</h1>
-        <p>{{quiz.questions|length}} Fragen - Erstellt von<a href="{{url_for('view_user', name=quiz.author.username)}}">&nbsp;{{ quiz.author.username}}</a></p>
-        <hr>
-    </div>
+{% block quiz_content %}
     <div class="container">
-        <h1 class="text-center" style="font-size: 35px;padding-bottom: 14px;">{{session["question_number"]}}/{{quiz.questions|length}}&nbsp;{{ question.content }}<br></h1>
+        <h1 class="text-center" style="font-size: 35px;padding-bottom: 14px;">{{session["question_number"] + 1}}/{{quiz.questions|length}}&nbsp;{{ question.content }}<br></h1>
         <h1></h1>
     </div>
     <form class="text-center answer" id="answer" method="post" style="margin: 0 auto;padding-top: 3px;" action="">{{ form.hidden_tag() }}
         <p>{{ form.answer.label }} <br>
-{{ form.answer(size=32) }}
+{{ form.answer(size=32, autocomplete="off") }}
 {% for error in form.answer.errors %}
 <span style="color: red;">{{error}}</span>
 {% endfor %}</p>

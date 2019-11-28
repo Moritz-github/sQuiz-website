@@ -20,9 +20,9 @@
 {% endif %}
 </head>
 
-<body>{% extends "base.html" %}
+<body>{% extends "base_quiz.html" %}
 
-{% block content %}
+{% block quiz_content %}
     <h1 class="text-center" style="filter: blur(0px);color: rgb(54,130,244);"><strong>Du hast das Quiz beendet!</strong></h1>
     <p class="text-center" style="font-size: 20px;">Rightige antworten: <strong>{{session["answers_right"]}} von {{session["answers_total"]}}</strong><br></p>
     <div class="text-center"><a href="{{url_for('index')}}" style="font-size: 31px;">Startseite</a></div>{% endblock %}
