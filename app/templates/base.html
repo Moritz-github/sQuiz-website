@@ -8,11 +8,16 @@
     <meta property="og:type" content="website">
     <meta name="description" content="">
     <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
     <link rel="stylesheet" href="/static/assets/css/Data-Table-1.css">
     <link rel="stylesheet" href="/static/assets/css/Data-Table.css">
+    <link rel="stylesheet" href="/static/assets/css/Features-Clean.css">
+    <link rel="stylesheet" href="/static/assets/css/Good-login-dropdown-menu-1.css">
+    <link rel="stylesheet" href="/static/assets/css/Good-login-dropdown-menu.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="/static/assets/css/styles.css">
+    <link rel="stylesheet" href="/static/assets/css/Team-Grid.css">
 {% if title %}
         <title>{{title}}</title>
 {% else %}
@@ -23,10 +28,10 @@
 <body>
     <div>
         <nav class="navbar navbar-light navbar-expand-md navigation-clean">
-            <div class="container"><a class="navbar-brand" href="{{url_for('index')}}"><strong>s</strong>Quiz</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                <div>{% if current_user.is_authenticated %}<span>Eingeloggt als&nbsp;<a href="{{ url_for('view_user', name=current_user.username)}}">{{ current_user.username }}</a></span>{% endif %}</div>
-                <div class="collapse navbar-collapse"
-                    id="navcol-1">
+            <div class="container"><a class="navbar-brand" href="{{url_for('index')}}"><strong>s</strong>Quiz</a>
+                <div>{% if current_user.is_authenticated %}<span>Eingeloggt als&nbsp;<a href="{{ url_for('view_user', name=current_user.username)}}">{{ current_user.username }}</a></span>{% endif %}</div><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div
+                    class="collapse navbar-collapse" id="navcol-1">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{{url_for('restart')}}">Restart</a></li>
                     </ul>{% if current_user.is_anonymous %}
@@ -35,9 +40,9 @@
                     </ul>{% else %}
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{{url_for('logout')}}">Logout</a></li>
-                    </ul>{% endif %}<a href="{{url_for('index')}}">Home</a></div>
-            </div>
-        </nav>
+                    </ul>{% endif %}</div>
+    </div>
+    </nav>
     </div>
     <hr style="margin-top: 0px;">{% with messages = get_flashed_messages() %}
 {% if messages %}

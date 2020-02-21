@@ -16,12 +16,8 @@ def before_request():
 @app.route("/index", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def index():
-    if request.method == "GET":
-        return render_template("index.html", title="Willkommen!", questions_all = Quiz.query.all())
-
-    if request.method == "POST":
-        reset_session()
-        return redirect(url_for("view_quiz", quizID=request.form["quiz"]))
+    reset_session()
+    return render_template("index.html", title="Willkommen!", quizzes = Quiz.query.all())
 
 
 @app.route("/user/<name>")
@@ -84,7 +80,7 @@ def create_quiz():
         db.session.add(quiz)
         db.session.commit()
         flash("Quiz erstellt")
-        return redirect(url_for("edit_quiz", quizID=quiz.id))
+        return redirect(url_for("create_question", quizID=quiz.id))
 
     return render_template("create_quiz.html", form=form)
 
@@ -216,17 +212,20 @@ def register(): # create_user()
         return redirect(url_for("index"))
     return render_template("register.html", title="Register", form=form)
 
+
 @app.route("/logout")
 def logout():
     logout_user()
     flash("Du wurdest erfolgreich ausgeloggt.")
     return redirect(url_for("index"))
 
+
 @app.route("/restart")
 def restart():
     reset_session()
     flash("Eine neue Session wurde gestartet!")
     return redirect(url_for("index"))
+
 
 def reset_session():
     session["question_number"] = 0

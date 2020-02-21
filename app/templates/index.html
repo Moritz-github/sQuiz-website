@@ -8,11 +8,16 @@
     <meta property="og:type" content="website">
     <meta name="description" content="">
     <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
     <link rel="stylesheet" href="/static/assets/css/Data-Table-1.css">
     <link rel="stylesheet" href="/static/assets/css/Data-Table.css">
+    <link rel="stylesheet" href="/static/assets/css/Features-Clean.css">
+    <link rel="stylesheet" href="/static/assets/css/Good-login-dropdown-menu-1.css">
+    <link rel="stylesheet" href="/static/assets/css/Good-login-dropdown-menu.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="/static/assets/css/styles.css">
+    <link rel="stylesheet" href="/static/assets/css/Team-Grid.css">
 {% if title %}
         <title>{{title}}</title>
 {% else %}
@@ -23,15 +28,22 @@
 <body>{% extends "base.html" %}
 
 {% block content %}
-    <h1 class="text-center"><strong>Wilkommen zum sQuiz!</strong></h1>
-    <form method="post">
-        <div class="text-center">
-            <p style="font-size: 19px;">Bitte wähle eine Quiz aus:</p> <select name="quiz">
-    {% for question in questions_all %}
-       <option value="{{question.id}}">{{question.name}}</option>
-    {% endfor %}
-</select><input class="form-control d-xl-flex justify-content-xl-center" type="submit" style="filter: blur(0px);margin-top: 14px;" value="Auswählen"></div>
-    </form>{% endblock %}
+    <div class="container">
+        <h1 class="text-center"><strong>Willkommen zum sQuiz!</strong></h1>
+        <form method="post">
+            <div class="text-center">
+                <p style="font-size: 19px;">Entdecke Quizze:</p>
+            </div>
+        </form>
+    </div>
+    <div>
+        <div class="container">
+            <div class="row">{% for quiz in quizzes%}
+                <div class="col-md-4 col-xl-4" style="margin-right: -2px;margin-bottom: 6px;"><a class="btn btn-light btn-block" role="button" style="min-height: 86px;" href="{{ url_for('view_quiz', quizID=quiz.id)}}"><span>{{quiz.name}}:<br></span><span class="d-xl-flex justify-content-xl-center">{{quiz.questions|length}} Fragen - Erstellt von&nbsp;<a href="{{url_for('view_user', name=quiz.author.username)}}">{{quiz.author.username}}</a><br></span>
+                    </a>
+                </div>{% endfor %}</div>
+        </div>
+    </div>{% endblock %}
     <script src="/static/assets/js/jquery.min.js"></script>
     <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
