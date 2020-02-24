@@ -39,8 +39,8 @@
     <div>
         <div class="container">
             <div class="row">{% for quiz in quizzes%}
-                <div class="col-md-4 col-xl-4" style="margin-right: -2px;margin-bottom: 6px;"><a class="btn btn-light btn-block" role="button" style="min-height: 86px;" href="{{ url_for('view_quiz', quizID=quiz.id)}}"><span>{{quiz.name}}:<br></span><span class="d-xl-flex justify-content-xl-center">{{quiz.questions|length}} Fragen - Erstellt von&nbsp;<a href="{{url_for('view_user', name=quiz.author.username)}}">{{quiz.author.username}}</a><br></span>
-                    </a>
+                <div class="col-md-4 col-xl-4">
+                    <div class="text-center" style="margin-right: 5px;margin-bottom: 5px;background-color: #eeeeee;min-height: 77px;"><span>{{quiz.name}}:<br></span><span>{{quiz.questions|length}} Fragen - Erstellt von&nbsp;<a href="{{url_for('view_user', name=quiz.author.username)}}">{{quiz.author.username}}</a><br></span><span><a href="{{ url_for('view_quiz', quizID=quiz.id) }}"><strong><em>Spielen</em></strong></a></span></div>
                 </div>{% endfor %}</div>
         </div>
     </div>{% endblock %}

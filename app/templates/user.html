@@ -35,7 +35,7 @@
         </div>
         <p style="margin-bottom: 0px;">Erstellte Quiz:</p><ul>
 {% for quiz in user.quizzes %}
-<li><a href="{{ url_for('view_quiz', id=quiz.id )}}">{{quiz.name}}</a></li>
+<li><a href="{{ url_for('view_quiz', quizID=quiz.id )}}">{{quiz.name}}</a></li>
 {% endfor %}
 </ul></div>{% endblock %}
     <script src="/static/assets/js/jquery.min.js"></script>
