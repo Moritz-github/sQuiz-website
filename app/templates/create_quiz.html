@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>sQuiz - kostenlos Quiz erstellen und spielen</title>
+    <meta property="og:type" content="website">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="/static/assets/css/Data-Table-1.css">
+    <link rel="stylesheet" href="/static/assets/css/Data-Table.css">
+    <link rel="stylesheet" href="/static/assets/css/Features-Clean.css">
+    <link rel="stylesheet" href="/static/assets/css/Good-login-dropdown-menu-1.css">
+    <link rel="stylesheet" href="/static/assets/css/Good-login-dropdown-menu.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/static/assets/css/styles.css">
+    <link rel="stylesheet" href="/static/assets/css/Team-Grid.css">
+{% if title %}
+        <title>{{title}}</title>
+{% else %}
+        <title>MISSING TITLE!</title>
+{% endif %}
+</head>
+
+<body>{% extends "base.html" %}
+
+{% block content %}
+    <div class="container text-center">
+        <form action="" method="post">{{ form.hidden_tag() }}
+            <p>{{ form.title.label }}
+{{ form.title(size=50) }}
+{% for error in form.title.errors %}
+<span style="color:red"> {{error}} </span>
+{% endfor %}</p>
+            <p>{{ form.submit() }}</p>
+        </form>
+    </div>{% endblock %}
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+</body>
+
+</html>
